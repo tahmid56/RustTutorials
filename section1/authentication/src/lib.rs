@@ -43,6 +43,13 @@ pub fn get_users() -> Vec<User> {
     ]
 }
 
+fn get_admin_users(){
+    let users: Vec<String> = get_users()
+        .into_iter()
+        .filter(|u| u.role == LoginRole::Admin)
+        .map(|u| u.username)
+        .collect();
+}
 pub fn login(username: &str, password: &str) -> Option<LoginAction> {
     let username = username.to_lowercase();
     let users = get_users();
