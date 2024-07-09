@@ -26,11 +26,7 @@
 //     println!("Hello {}", s);
 // }
 
-fn read_line() -> String {
-    let mut input = String::new();
-    std::io::stdin().read_line(&mut input).expect("Std failed to acquire data");
-    input.trim().to_string()
-}
+
 
 fn main() {
     //MAKE A VARIABALE MUTABLE
@@ -54,6 +50,6 @@ fn main() {
     // greet(s);
     // greet_borrow(&s);
     // greet_borrow_mut(&mut s)
-    let input = read_line();
-    println!("Entered Value: [{input}]")
+    // let input = read_line();
+    // println!("Entered Value: [{input}]")
 }
