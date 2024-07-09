@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 
 [workspace]
-members = ["section1/hello_world", "section1/variables"]
+members = [ "section1/authentication","section1/hello_world", "section1/login", "section1/variables"]
