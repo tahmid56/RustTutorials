@@ -21,9 +21,15 @@
 // }
 
 //BORROWING MUTABLE
-fn greet_borrow_mut(s: &mut String) {
-    *s = format!("{}!", s);
-    println!("Hello {}", s);
+// fn greet_borrow_mut(s: &mut String) {
+//     *s = format!("{}!", s);
+//     println!("Hello {}", s);
+// }
+
+fn read_line() -> String {
+    let mut input = String::new();
+    std::io::stdin().read_line(&mut input).expect("Std failed to acquire data");
+    input.trim().to_string()
 }
 
 fn main() {
@@ -44,9 +50,10 @@ fn main() {
     // println!("Square of {x} is {}", square(x));
 
 
-    let mut s = String::from("User1");
+    // let mut s = String::from("User1");
     // greet(s);
     // greet_borrow(&s);
-    greet_borrow_mut(&mut s)
-
+    // greet_borrow_mut(&mut s)
+    let input = read_line();
+    println!("Entered Value: [{input}]")
 }
