@@ -2,6 +2,60 @@ pub fn greet_user(name: &str) -> String {
     format!("Hello {name}")
 } 
 
+pub fn read_line() -> String {
+    let mut input = String::new();
+    std::io::stdin().read_line(&mut input).expect("Std failed to acquire data");
+    input.trim().to_string()
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum LoginRole {
+    Admin,
+    User,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum LoginAction {
+    Granted(LoginRole),
+    Denied,
+}
+
+pub struct User {
+    username: String,
+    password: String,
+    role: LoginRole,
+}
+
+impl User{
+    pub fn new(username: &str, password: &str, role: LoginRole) -> User {
+        Self {
+            username: username.to_lowercase(),
+            password: password.to_string(),
+            role,
+        }
+    }
+}
+
+pub fn get_users() -> Vec<User> {
+    vec![
+        User::new("admin", "password", LoginRole::Admin),
+        User::new("user", "password", LoginRole::User),
+    ]
+}
+
+pub fn login(username: &str, password: &str) -> Option<LoginAction> {
+    let username = username.to_lowercase();
+    let users = get_users();
+    if let Some(user) = users.iter().find(|user| user.username == username){
+        if user.password == password {
+            return Some(LoginAction::Granted(user.role.clone()));
+        }else {
+            return Some(LoginAction::Denied)
+        }
+    }
+    None
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
