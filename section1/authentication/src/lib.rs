@@ -1,10 +1,16 @@
-use std::{collections::HashMap, hash::Hash, path::Path};
-
+use std::{collections::HashMap, path::Path};
 use serde::{Deserialize, Serialize};
 
 pub fn greet_user(name: &str) -> String {
     format!("Hello {name}")
 } 
+
+pub fn hash_password(password: &str) -> String {
+    use sha2::Digest;
+    let mut hasher = sha2::Sha256::new();
+    hasher.update(password);
+    format!("{:X}", hasher.finalize())
+}
 
 pub fn read_line() -> String {
     let mut input = String::new();
@@ -35,7 +41,7 @@ impl User{
     pub fn new(username: &str, password: &str, role: LoginRole) -> User {
         Self {
             username: username.to_lowercase(),
-            password: password.to_string(),
+            password: hash_password(password),
             role,
         }
     }
@@ -78,6 +84,7 @@ pub fn get_users() -> HashMap<String, User> {
 
 pub fn login(username: &str, password: &str) -> Option<LoginAction> {
     let username = username.to_lowercase();
+    let password = hash_password(password);
     let users = get_users();
 
     // WHILE USING HASHMAP
@@ -88,8 +95,8 @@ pub fn login(username: &str, password: &str) -> Option<LoginAction> {
             return Some(LoginAction::Denied)
         }
     }
-
-    //WHILE USING VECTOR
+    None
+    // WHILE USING VECTOR
     // if let Some(user) = users.iter().find(|user| user.username == username){
     //     if user.password == password {
     //         return Some(LoginAction::Granted(user.role.clone()));
@@ -97,7 +104,7 @@ pub fn login(username: &str, password: &str) -> Option<LoginAction> {
     //         return Some(LoginAction::Denied)
     //     }
     // }
-    None
+    // None
 }
 
 #[cfg(test)]
