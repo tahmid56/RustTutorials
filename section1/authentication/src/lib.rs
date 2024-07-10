@@ -32,9 +32,9 @@ pub enum LoginAction {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct User {
-    username: String,
+    pub username: String,
     password: String,
-    role: LoginRole,
+    pub role: LoginRole,
 }
 
 impl User{
@@ -45,6 +45,12 @@ impl User{
             role,
         }
     }
+}
+
+pub fn save_user(user: HashMap<String, User>) {
+    let users_path = Path::new("users.json");
+    let users_json = serde_json::to_string(&user).unwrap();
+    std::fs::write(users_path, users_json).unwrap();
 }
 
 pub fn get_default_users() -> HashMap<String, User>{
